@@ -13,6 +13,8 @@
 #include "setMuted.h"
 #include "startRadioSpeaking.h"
 #include "stopRadioSpeaking.h"
+#include "startIntercomSpeaking.h"
+#include "stopIntercomSpeaking.h"
 #include "setPTTKeys.h"
 #include "loadSound.h"
 #include "playSound.h"
@@ -22,6 +24,7 @@
 #include "updateSelf.h"
 #include "setSelectableVoiceCurve.h"
 #include "setSetting.h"
+#include "setTs3ChannelDetails.h"
 
 
 ACRE_RESULT CEngine::initialize(IClient *client, IServer *externalServer, std::string fromPipeName, std::string toPipeName) {
@@ -56,6 +59,8 @@ ACRE_RESULT CEngine::initialize(IClient *client, IServer *externalServer, std::s
     this->getRpcEngine()->addProcedure(new setMuted());
     this->getRpcEngine()->addProcedure(new startRadioSpeaking());
     this->getRpcEngine()->addProcedure(new stopRadioSpeaking());
+    this->getRpcEngine()->addProcedure(new startIntercomSpeaking());
+    this->getRpcEngine()->addProcedure(new stopIntercomSpeaking());
     this->getRpcEngine()->addProcedure(new setPTTKeys());
     this->getRpcEngine()->addProcedure(new loadSound());
     this->getRpcEngine()->addProcedure(new playLoadedSound());
@@ -65,6 +70,7 @@ ACRE_RESULT CEngine::initialize(IClient *client, IServer *externalServer, std::s
     this->getRpcEngine()->addProcedure(new updateSelf());
     this->getRpcEngine()->addProcedure(new setSelectableVoiceCurve());
     this->getRpcEngine()->addProcedure(new setSetting());
+    this->getRpcEngine()->addProcedure(new setTs3ChannelDetails());
 
     // Initialize the client, because it never was derp
     this->getClient()->initialize();

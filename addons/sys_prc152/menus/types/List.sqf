@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -29,9 +30,8 @@ DFUNC(onButtonPress_List) = {
         };
         case 'CLR': {
             // Back out of the menu back to the root menu of this menu...confusing right?
-            _homeDisplay = GET_STATE_DEF("currentHome", GVAR(VULOSHOME));
+            private _homeDisplay = GET_STATE_DEF("currentHome", GVAR(VULOSHOME));
             [_homeDisplay] call FUNC(changeMenu);
-            _ret = true;
         };
         case '6': {
             TRACE_1("Enter 6", _currentSelection);
@@ -100,8 +100,7 @@ DFUNC(renderMenu_List) = {
 };
 
 DFUNC(drawCursor_List) = {
-    #include "script_component.hpp"
-    TRACE_1("drawCursor_List", _this);
+        TRACE_1("drawCursor_List", _this);
     private ["_len"];
     params ["_menu","_currentSelection","_currentSelectionIndex"];
 

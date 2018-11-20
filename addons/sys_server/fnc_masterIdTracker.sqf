@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * Searches all containers periodically to keep track of ACRE items with unique IDs.
@@ -13,7 +14,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 TRACE_1("Enter", "");
 
@@ -40,7 +40,14 @@ if (!GVAR(doFullSearch)) then {
             if (_object isKindOf "Man") then {
                 _items = [_object] call EFUNC(sys_core,getGear);
             } else {
-                _items = (itemCargo _object) select {(_x select [0, 4]) == "ACRE" || _x == "ItemRadio" || _x == "ItemRadioAcreFlagged"};
+                _items = ((getItemCargo _object) select 0) select {(_x select [0, 4]) == "ACRE" || {_x == "ItemRadio"} || {_x == "ItemRadioAcreFlagged"}};
+                {
+                    _items pushBack _x; // Add rack unique ID
+                    private _mountedRadio = [_x] call EFUNC(sys_rack,getMountedRadio);
+                    if (_mountedRadio != "") then {
+                        _items pushBack _mountedRadio; // Add mounted radio unique ID
+                    };
+                } forEach (_object getVariable [QEGVAR(sys_rack,vehicleRacks), []]);
             };
 
             {
@@ -48,7 +55,7 @@ if (!GVAR(doFullSearch)) then {
             } forEach _items;
             if (_found) exitWith {};
         } forEach _objects;
-        if (!_found) exitWith { GVAR(doFullSearch) = true; };
+        if (!_found) exitWith {GVAR(doFullSearch) = true;};
     } forEach _shortSearchList;
 };
 
@@ -61,9 +68,16 @@ if (GVAR(doFullSearch)) then {
     private _idTable = HASH_CREATE;
     private _idList = [];
     private _duplicateIdTable = HASH_CREATE;
-    private _searchObjects = allPlayers + allUnits + allDead + vehicles + (allMissionObjects "WeaponHolder"); // search players first
+    private _searchObjects = [];
+    _searchObjects append allPlayers;
+    _searchObjects append allUnits;
+    _searchObjects append allDead;
+    _searchObjects append vehicles;
+    _searchObjects append (allMissionObjects "WeaponHolder");
 
     _searchObjects = _searchObjects arrayIntersect _searchObjects; // Ensure nothing gets searched twice.
+    private _cfgWeapons = configFile >> "CfgWeapons";
+    private _cfgVehicles = configFile >> "CfgVehicles";
     {
         private _mainObject = _x;
         private _objects = [_mainObject];
@@ -75,7 +89,7 @@ if (GVAR(doFullSearch)) then {
             if (_object isKindOf "Man") then {
                 _items = [_object] call EFUNC(sys_core,getGear);
             } else {
-                _items = (itemCargo _object) select {(_x select [0, 4]) == "ACRE"}; /* || _x == "ItemRadio" || _x == "ItemRadioAcreFlagged" // Only interested in unique IDs*/
+                _items = ((getItemCargo _object) select 0) select {(_x select [0, 4]) == "ACRE"}; /* || _x == "ItemRadio" || _x == "ItemRadioAcreFlagged" // Only interested in unique IDs*/
             };
 
             {
@@ -94,6 +108,49 @@ if (GVAR(doFullSearch)) then {
             } forEach (_items select {_x call EFUNC(sys_radio,isUniqueRadio)});
         } forEach _objects;
     } forEach _searchObjects;
+    // VEHICLE RACKS
+    {
+        private _rackId = typeOf _x;
+
+        if (getNumber (_cfgVehicles >> _rackId >> "acre_isUnique") == 1) then {
+            private _vehicle = _x getVariable [QEGVAR(sys_rack,rackVehicle), objNull];
+            private _mainObject = _x;
+            if (isNull _vehicle || {!alive _vehicle}) then {
+                deleteVehicle _x; // Acre racks should always be attached to something.
+            } else {
+                _mainObject = _vehicle;
+                if (_idList pushBackUnique _rackId != -1) then { // Add to ID list and this condition returns true if it was not present in the _idList.
+                    HASH_SET(_idTable, _rackId, [ARR_2(_mainObject,_x)]);
+                } else { // Already present in _idList
+                    private _duplicateIdList = [];
+                    if (!HASH_HASKEY(_duplicateIdTable, _rackId)) then {
+                        HASH_SET(_duplicateIdTable, _rackId, _duplicateIdList);
+                    } else {
+                        HASH_GET(_duplicateIdTable, _rackId);
+                    };
+                    _duplicateIdList pushBack [_mainObject, _x];
+                };
+               //Mounted Radio
+                private _mountedRadio = [_rackId] call EFUNC(sys_rack,getMountedRadio);
+                if (_mountedRadio != "") then { // Radio is mounted.
+                    if (getNumber (_cfgWeapons >> _mountedRadio >> "acre_isUnique") == 1) then {
+                        if (_idList pushBackUnique _mountedRadio != -1) then { // Add to ID list and this condition returns true if it was not present in the _idList.
+                            HASH_SET(_idTable, _mountedRadio, [ARR_2(_mainObject,_x)]);
+                        } else { // Already present in _idList
+                            private _duplicateIdList = [];
+                            if (!HASH_HASKEY(_duplicateIdTable, _mountedRadio)) then {
+                                HASH_SET(_duplicateIdTable, _mountedRadio, _duplicateIdList);
+                            } else {
+                                HASH_GET(_duplicateIdTable, _mountedRadio);
+                            };
+                            _duplicateIdList pushBack [_mainObject, _x];
+                        };
+                    };
+                };
+            };
+        };
+    } forEach (nearestObjects [[-1000,-1000], ["ACRE_baseRack"], 1, true]);
+
     {
         private _key = _x;
         if (HASH_HASKEY(GVAR(masterIdTable), _key)) then {
@@ -109,16 +166,17 @@ if (GVAR(doFullSearch)) then {
                 if (time > _time + 60) then { // Free up the ID after if it remains unclaimed after 60 seconds.
                     // Cleanup unacknowledge ID.
                     WARNING_1("Releasing unacknowledged key (%1)",_key);
-                    GVAR(unacknowledgedIds) = GVAR(unacknowledgedIds) - [_key];
-                    GVAR(masterIdList) = GVAR(masterIdList) - [_key];
+                    GVAR(unacknowledgedIds) deleteAt (GVAR(unacknowledgedIds) find _key);
+                    GVAR(masterIdList) deleteAt (GVAR(masterIdList) find _key);
                     HASH_REM(GVAR(unacknowledgedTable), _key);
 
                     private _baseRadio = [_key] call EFUNC(sys_radio,getRadioBaseClassname);
                     private _idNumber = getNumber (configFile >> "CfgWeapons" >> _key >> "acre_uniqueId");
-                    private _keyIndex = (GVAR(radioIdMap) select 0) find _baseRadio;
+                    private _keyIndex = (GVAR(radioIdMap) select 0) find (toLower _baseRadio);
                     if (_keyIndex != -1) then {
-                        private _newIds = ((GVAR(radioIdMap) select 1) select _keyIndex) - [_idNumber];
-                        (GVAR(radioIdMap) select 1) set[_keyIndex, _newIds];
+                        private _newIds = (GVAR(radioIdMap) select 1) select _keyIndex;
+                        _newIds deleteAt (_newIds find _idNumber);
+                        (GVAR(radioIdMap) select 1) set [_keyIndex, _newIds];
                     };
                 };
             };
@@ -136,7 +194,7 @@ if (GVAR(doFullSearch)) then {
             private _baseRadio = [_key] call EFUNC(sys_radio,getRadioBaseClassname);
             //Only collect firstFound if there are non-player objects with IDs as well.
             if ({!((_x select 0) in _players)} count _duplicates > 0) then {
-                [(_firstFound select 0), _baseRadio, QEGVAR(sys_radio,currentRadioDialog), _key] call FUNC(onGetRadioId);
+                [(_firstFound select 0), _baseRadio, QEGVAR(sys_radio,returnRadioId), _key] call FUNC(onGetRadioId);
                 WARNING_2("Duplicate radio ID found! Attempting replace of (%1,%2)",name (_firstFound select 0),_key);
             };
 
@@ -144,7 +202,7 @@ if (GVAR(doFullSearch)) then {
             {
                private _data = _x;
                if ((_data select 0) in _players) then {
-                   [(_data select 0), _baseRadio, QEGVAR(sys_radio,currentRadioDialog), _key] call FUNC(onGetRadioId);
+                   [(_data select 0), _baseRadio, QEGVAR(sys_radio,returnRadioId), _key] call FUNC(onGetRadioId);
                    WARNING_2("Duplicate radio ID found! Attempting replace of (%1,%2)",name (_data select 0),_key);
                };
            } forEach _duplicates;
@@ -184,7 +242,7 @@ if (GVAR(doFullSearch)) then {
 
         if (HASH_HASKEY(GVAR(masterIdTable), _key)) then {
             private _currentEntry = HASH_GET(GVAR(masterIdTable), _key);
-            if (!(_value isEqualTo _currentEntry)) then {
+            if !(_value isEqualTo _currentEntry) then {
                 _toUpdate pushBack [_key, _value];
             };
         } else {
@@ -195,7 +253,8 @@ if (GVAR(doFullSearch)) then {
             _toUpdate pushBack [_key, _value];
         };
     } forEach ((HASH_KEYS(_idTable)) - GVAR(unacknowledgedIds));
-    if ((count _toUpdate) > 0) then {
+
+    if !(_toUpdate isEqualTo []) then {
         #ifdef DEBUG_MODE_FULL
             TRACE_1("calling updateIdObjects", _toUpdate);
             acre_player sideChat "Calling updateIdObjects";

@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,22 +15,26 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
-if (!(alive acre_player) || GVAR(keyBlock) || time < 1) exitWith { false };
+if (!alive acre_player || time < 1 || GVAR(keyBlock) || dialog || ACRE_IS_SPECTATOR) exitWith {
+    if (!GVAR(keyBlock)) then {
+        call FUNC(onVolumeControlKeyPressUp);
+    };
+    false
+};
 
-inGameUISetEventHandler ['PrevAction', 'true'];
-inGameUISetEventHandler ['NextAction', 'true'];
+inGameUISetEventHandler ["PrevAction", "true"];
+inGameUISetEventHandler ["NextAction", "true"];
 
 GVAR(keyBlock) = true;
 disableSerialization;
 
-57701 cutRsc [QGVAR(VolumeControlDialog), "PLAIN"];
+(QGVAR(VolumeControlDialog) call BIS_fnc_rscLayer) cutRsc [QGVAR(VolumeControlDialog), "PLAIN"];
 
-_slider = (GVAR(VolumeControlDialog) select 0) displayCtrl 1900;
+private _slider = (GVAR(VolumeControlDialog) select 0) displayCtrl 1900;
 _slider sliderSetRange [-2, 2];
 
-_slider ctrlSetEventHandler ["SliderPosChanged","_this call FUNC(onVolumeControlSliderChanged)"];
+_slider ctrlSetEventHandler ["SliderPosChanged", QUOTE(_this call FUNC(onVolumeControlSliderChanged))];
 _slider sliderSetPosition GVAR(VolumeControl_Level);
 call FUNC(setVolumeSliderColor);
 

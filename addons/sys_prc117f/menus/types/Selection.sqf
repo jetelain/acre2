@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 DFUNC(onButtonPress_Selection) = {
     TRACE_1("onButtonPress_Selection", _this);
@@ -75,7 +75,6 @@ DFUNC(onButtonPress_Selection) = {
     };
 };
 DFUNC(renderMenu_Selection) = {
-    //TRACE_1(QUOTE(FUNC(renderMenu_Number)), _this);
     params ["_menu"]; // the menu to render is passed
     private _displaySet = MENU_SUBMENUS(_menu);
 

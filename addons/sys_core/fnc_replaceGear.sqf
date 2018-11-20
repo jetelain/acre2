@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * Replaces an item in a unit with another one. It is not limited to ACRE 2 related items
@@ -15,34 +16,39 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 params ["_unit", "_itemToReplace", "_itemReplaceWith"];
 
-private _uniform = (uniformContainer _unit);
-if (!isNull _uniform && {_itemToReplace in (itemCargo _uniform)}) exitWith {
+_itemToReplace = toLower _itemToReplace;
+_itemReplaceWith = toLower _itemReplaceWith;
+
+private _uniform = uniformContainer _unit;
+private _uniforCmargo = ((getItemCargo _uniform) select 0) apply {toLower _x};
+if (!isNull _uniform && {_itemToReplace in _uniforCmargo}) exitWith {
     _unit removeItem _itemToReplace;
     _uniform addItemCargoGlobal [_itemReplaceWith, 1]; // circumvent limit
 };
 
-private _vest = (vestContainer _unit);
-if (!isNull _vest && {_itemToReplace in (itemCargo _vest)}) exitWith {
+private _vest = vestContainer _unit;
+private _vestCargo = ((getitemCargo _vest) select 0) apply {toLower _x};
+if (!isNull _vest && {_itemToReplace in _vestCargo}) exitWith {
     _unit removeItem _itemToReplace;
     _vest addItemCargoGlobal [_itemReplaceWith, 1]; // circumvent limit
 };
 
-private _backpack = (backpackContainer _unit);
-if (!isNull _backpack && {_itemToReplace in (itemCargo _backpack)}) exitWith {
+private _backpack = backpackContainer _unit;
+private _backpackCargo = ((getItemCargo _backpack) select 0) apply {toLower _x};
+if (!isNull _backpack && {_itemToReplace in _backpackCargo}) exitWith {
     _unit removeItem _itemToReplace;
     _backpack addItemCargoGlobal [_itemReplaceWith, 1]; // circumvent limit
 };
 
-private _assignedItems = assignedItems _unit;
+private _assignedItems = (assignedItems _unit) apply {toLower _x};
 if (_itemToReplace in _assignedItems) then {
     _unit unassignItem _itemToReplace;
 };
 
-private _weapons = weapons _unit;
+private _weapons = (weapons _unit) apply {toLower _x};
 if (_itemToReplace in _weapons) exitWith {
     _unit removeWeapon _itemToReplace;
     _unit addWeapon _itemReplaceWith;
@@ -55,6 +61,5 @@ if (_unit canAdd _itemReplaceWith) then {
     if (!isNull _uniform) exitWith { _uniform addItemCargoGlobal [_itemReplaceWith, 1];};
     if (!isNull _vest) exitWith { _vest addItemCargoGlobal [_itemReplaceWith, 1];};
     if (!isNull _backpack) exitWith { _backpack addItemCargoGlobal [_itemReplaceWith, 1];};
-    INFO("Unable to add '%1' to inventory.",_itemReplaceWith);
-    hintSilent format ["ACRE2: Unable to add '%1' to your inventory.", _itemReplaceWith];
+    WARNING_1("Unable to add '%1' to inventory.",_itemReplaceWith);
 };

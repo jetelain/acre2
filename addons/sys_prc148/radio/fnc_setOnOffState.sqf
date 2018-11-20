@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 params ["_radioId", "_event", "_eventData", "_radioData"];
 
@@ -37,6 +37,6 @@ if (_radioId == EGVAR(sys_radio,currentRadioDialog)) then {
             HASH_SET(_radioData, "selectedEntry", 0);
         };
     };
-    _display = uiNamespace getVariable QGVAR(currentDisplay);
+    private _display = uiNamespace getVariable QGVAR(currentDisplay);
     [_display] call FUNC(render);
 };

@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,19 +15,24 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 TRACE_1("OPENING GUI", _this);
+params ["_radioId", "", "", "", ""];
+
+// Prevent radio from being opened if it is externally used or it is not accessible
+if (!([_radioId] call EFUNC(sys_radio,canOpenRadio))) exitWith { false };
 
 disableSerialization;
-GVAR(currentRadioId) = _this select 0;
+GVAR(currentRadioId) = _radioId;
 createDialog "Prc117f_RadioDialog";
 [] call FUNC(clearDisplay);
 
+[_radioId, true] call EFUNC(sys_radio,setRadioOpenState);
 
-_onState = [GVAR(currentRadioId), "getOnOffState"] call EFUNC(sys_data,dataEvent);
+
+private _onState = [GVAR(currentRadioId), "getOnOffState"] call EFUNC(sys_data,dataEvent);
 if (_onState >= 1) then {
-    _currentMenu = GET_STATE_DEF("currentMenu", GVAR(VULOSHOME));
+    private _currentMenu = GET_STATE_DEF("currentMenu", GVAR(VULOSHOME));
     [_currentMenu] call FUNC(changeMenu);
 } else {
     [GVAR(LOADING)] call FUNC(changeMenu);

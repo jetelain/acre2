@@ -1,20 +1,19 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
- * SHORT DESCRIPTION
+ * Initialises and registers the default presets with the initial values of transmitting and receiving frequencies for each of the channels.
  *
  * Arguments:
- * 0: ARGUMENT ONE <TYPE>
- * 1: ARGUMENT TWO <TYPE>
+ * None
  *
  * Return Value:
- * RETURN VALUE <TYPE>
+ * None
  *
  * Example:
- * [ARGUMENTS] call acre_COMPONENT_fnc_FUNCTIONNAME
+ * [] call acre_sys_prc343_fnc_presetInformation
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 private _presetFrequencies = [];
 for "_i" from 0 to 255 do {

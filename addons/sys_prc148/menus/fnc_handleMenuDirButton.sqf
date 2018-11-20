@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 params ["_dir", "_params"];
 
@@ -55,7 +55,7 @@ if (GET_STATE("editEntry")) then {
             case MENU_TYPE_LIST: {
                 private _list = _menuEntry select 7;
                 _value = GET_STATE("currentEditEntry");
-                _index = _list find _value;
+                private _index = _list find _value;
 
                 _index = _index + _dir;
                 if (_index < 0) then {

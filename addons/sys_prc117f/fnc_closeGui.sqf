@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,10 +15,12 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 TRACE_1("", _this);
 
+params ["_radioId", "", "", "", ""];
+
+[_radioId, false] call EFUNC(sys_radio,setRadioOpenState);
 
 GVAR(currentRadioId) = -1;
 

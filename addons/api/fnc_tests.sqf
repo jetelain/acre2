@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * This function is used to test the API functions. Test results will be outputted to the global variable acre_api_testResults.
@@ -13,13 +14,13 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 GVAR(testResults) = [];
+private ["_test"];
 
-#define ASSERT_BOOL(val1,val2) (val1 == val2)
+#define ASSERT_BOOL(val1,val2) (val1 isEqualTo val2)
 #define ASSERT_STRING(val1,val2) (val1 == val2)
-#define ASSERT_TYPE(val1,val2) ((typeName val1) == val2)
+#define ASSERT_TYPE(val1,val2) (val2 isEqualType val1)
 #define PASS(fncName) PUSH(GVAR(testResults), [ARR_2(#fncName,true)])
 #define FAIL(fncName) PUSH(GVAR(testResults), [ARR_2(#fncName,false)])
 

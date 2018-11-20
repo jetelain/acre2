@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,9 +15,7 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
-//TRACE_1("enter", _this);
 
 //["Acre_GenericClick", [0,0,0], [0,0,0], 0.2, false] call EFUNC(sys_sounds,playSound);
 private _control = ctrlIDC (_this select 1);

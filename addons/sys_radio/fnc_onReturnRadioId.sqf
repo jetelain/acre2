@@ -1,52 +1,55 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
- * SHORT DESCRIPTION
+ * Returns a unique radio ID of the given class.
  *
  * Arguments:
- * 0: ARGUMENT ONE <TYPE>
- * 1: ARGUMENT TWO <TYPE>
+ * 0: Player <OBJECT>
+ * 1: Base radio class <STRING>
+ * 2: Return ID number <NUMBER>
+ * 3: Replacement number <NUMBER>
  *
  * Return Value:
  * RETURN VALUE <TYPE>
  *
  * Example:
- * [ARGUMENTS] call acre_COMPONENT_fnc_FUNCTIONNAME
+ * [player, "ACRE_PRC343", 0, 2] call acre_sys_radio_fnc_onReturnRadioId
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 LOG("HIT CALLBACK");
 
-params ["_player", "_class", "_returnIdNumber", "_replacementId"];
+params ["_player", "_class", "", "_replacementId"];
 
 private _dataHash = HASH_CREATE;
 
 // diag_log text format["acre_sys_data_radioData: %1", acre_sys_data_radioData];
 
 HASH_SET(EGVAR(sys_data,radioData),_class,_dataHash);
-_idRelation = [_player, _player];
+private _idRelation = [_player, _player];
 HASH_SET(EGVAR(sys_server,objectIdRelationTable), _class, _idRelation);
-if (_replacementId != "") then {
-    _radioData = HASH_GET(EGVAR(sys_data,radioData), _replacementId);
+if !(_replacementId isEqualTo "") then {
+    private _radioData = HASH_GET(EGVAR(sys_data,radioData), _replacementId);
     HASH_SET(EGVAR(sys_data,radioData), _class, HASH_COPY(_radioData));
 };
+
 if (_player == acre_player) then {
-    _baseRadio = _replacementId;
+    private _baseRadio = _replacementId;
     if (_baseRadio == "") then {
         _baseRadio = BASECLASS(_class);
     };
-    _weapons = [acre_player] call EFUNC(sys_core,getGear);
+    private _weapons = [acre_player] call EFUNC(sys_core,getGear);
 
     //if (_baseRadio in _weapons || ("ItemRadio" in _weapons && _baseRadio == GVAR(defaultItemRadioType) ) ) then {
     TRACE_2("Check inventory", _baseRadio, _weapons);
-    if ((toLower _baseRadio) in (_weapons apply {toLower _x})) then {
+    if ((toLower _baseRadio) in _weapons) then {
         // Add a new radio based on the id we just got
         TRACE_3("Adding radio", _class, _baseRadio, _replacementId);
 
-        if (_replacementId == "") then {
+        if (_replacementId isEqualTo "") then {
             // initialize the new radio
-            _preset = [BASECLASS(_class)] call EFUNC(sys_data,getRadioPresetName);
+            private _preset = [BASECLASS(_class)] call EFUNC(sys_data,getRadioPresetName);
             [_class, _preset] call FUNC(initDefaultRadio);
 
             [acre_player, _baseRadio, _class] call EFUNC(sys_core,replaceGear);
@@ -54,16 +57,15 @@ if (_player == acre_player) then {
         } else {
             [acre_player, _replacementId, _class] call EFUNC(sys_core,replaceGear);
             if (_replacementId == ACRE_ACTIVE_RADIO) then {
-                if (!isDedicated && isServer) then {
+                if (!isDedicated && {isServer}) then {
                     // need to delay setting the active radio out a frame because
                     // on a self hosted, this executes before the last gear check
                     // and Arma delays comitting gear changes till the next frame
                     // so currently, even though we removed the old radio, it will
                     // still show up in the gear list in this frame.
-                    _fnc = {
-                        [(_this select 0)] call EFUNC(sys_radio,setActiveRadio);
-                    };
-                    [_fnc, [_class]] call CBA_fnc_execNextFrame;
+                    [{
+                        [_this] call EFUNC(sys_radio,setActiveRadio);
+                    }, _class] call CBA_fnc_execNextFrame;
                 } else {
                     [_class] call EFUNC(sys_radio,setActiveRadio);
                 };

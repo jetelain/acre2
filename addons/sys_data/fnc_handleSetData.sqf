@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 params ["_radioId", "_event", "_data", "_radioData","_eventKind", "_remote"];
 
@@ -24,7 +24,7 @@ if (_remote) exitWith { true };
 
 TRACE_1("SET DATA EVENT ENTER", _this);
 
-private _radioBaseClass = [_radioId] call EFUNC(sys_radio,getRadioBaseClassname);
+private _radioBaseClass = BASE_CLASS_CONFIG(_radioId);
 
 private _interfaceClass = getText(configFile >> "CfgAcreComponents" >> _radioBaseClass >> "InterfaceClasses" >> _eventKind);
 if (_interfaceClass == "") then {

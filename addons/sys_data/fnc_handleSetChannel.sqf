@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,11 +15,10 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 if (hasInterface) then {
-    private _radioId    = _this select 0;
-    private _remote     = _this select 5;
+    private _radioId = _this select 0;
+    private _remote = _this select 5;
     if (_remote) then {
         private _fnc = {
             params ["_radioId","_previousOkRadios"];

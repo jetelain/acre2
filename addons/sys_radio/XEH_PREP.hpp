@@ -1,5 +1,5 @@
 PREP(monitorRadios);
-
+PREP(monitorRadiosPFH);
 PREP(setActiveRadio);
 
 PREP(openRadio);
@@ -14,6 +14,7 @@ PREP(setRadioVolume);
 PREP(isUniqueRadio);
 PREP(isBaseClassRadio);
 
+PREP(setRadioOpenState);
 PREP(setRadioSpatial);
 PREP(getRadioSpatial);
 
@@ -27,3 +28,9 @@ PREP(playRadioSound);
 PREP(handleRadioSpatialKeyPressed);
 
 PREP(onPlayerKilled);
+
+PREP(canOpenRadio);
+PREP(canUnitReceive);
+PREP(canUnitTransmit);
+PREP(isManpackRadio);
+PREP(stopUsingRadio);

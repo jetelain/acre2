@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * Returns the language index from a language Id.
@@ -13,14 +14,15 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 params ["_languageKey"];
 
 private _ret = -1;
 {
-    if ((_x select 0) == _languageKey) exitWith {
+    _x params ["_language"];
+    if (_language isEqualType _languageKey && {_language == _languageKey}) exitWith {
         _ret = _forEachIndex;
     };
 } forEach GVAR(languages);
-_ret;
+
+_ret

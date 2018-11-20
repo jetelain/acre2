@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project name="ACRE">
     <Package name="ace_interact">
         <Key ID="STR_ACRE_ace_interact_radios">
@@ -10,6 +10,11 @@
             <Italian>Radio</Italian>
             <French>Radios</French>
             <Korean>무전기</Korean>
+            <Polish>Radia</Polish>
+            <Russian>Рации</Russian>
+            <Chinese>無線電</Chinese>
+            <Chinesesimp>无线电</Chinesesimp>
+            <Portuguese>Rádios</Portuguese>
         </Key>
         <Key ID="STR_ACRE_ace_interact_channelShort">
             <English>%1 Chn: %2</English>
@@ -20,6 +25,11 @@
             <Italian>%1 Chn: %2</Italian>
             <French>%1 Canal: %2</French>
             <Korean>%1 채널: %2</Korean>
+            <Polish>%1 Kanał: %2</Polish>
+            <Russian>%1 Канал: %2</Russian>
+            <Chinese>%1 頻道: %2</Chinese>
+            <Chinesesimp>%1 频道: %2</Chinesesimp>
+            <Portuguese>%1 Cnl: %2</Portuguese>
         </Key>
         <Key ID="STR_ACRE_ace_interact_lowerHeadset">
             <English>Lower Headset</English>
@@ -30,6 +40,11 @@
             <Italian>Togli Cuffia</Italian>
             <French>Baisser casque</French>
             <Korean>헤드셋 벗기</Korean>
+            <Polish>Zdejmij słuchawki</Polish>
+            <Russian>Опустить наушники</Russian>
+            <Chinese>取下耳機</Chinese>
+            <Chinesesimp>取下耳机</Chinesesimp>
+            <Portuguese>Abaixar Fones</Portuguese>
         </Key>
         <Key ID="STR_ACRE_ace_interact_raiseHeadset">
             <English>Raise Headset</English>
@@ -40,6 +55,26 @@
             <Italian>Indossa Cuffia</Italian>
             <French>Mettre casque</French>
             <Korean>헤드셋 착용</Korean>
+            <Polish>Załóż słuchawki</Polish>
+            <Russian>Поднять наушники</Russian>
+            <Chinese>戴上耳機</Chinese>
+            <Chinesesimp>戴上耳机</Chinesesimp>
+            <Portuguese>Levantar Fones</Portuguese>
+        </Key>
+        <Key ID="STR_ACRE_ace_interact_openRadio">
+            <English>Open</English>
+            <Czech>Otevřít</Czech>
+            <German>Öffnen</German>
+            <Russian>Открыть</Russian>
+            <Polish>Otwórz</Polish>
+            <Italian>Apri</Italian>
+            <Spanish>Abrir</Spanish>
+            <French>Ouvrir</French>
+            <Japanese>開く</Japanese>
+            <Chinese>打開</Chinese>
+            <Chinesesimp>打开</Chinesesimp>
+            <Korean>열기</Korean>
+            <Portuguese>Abrir</Portuguese>
         </Key>
         <Key ID="STR_ACRE_ace_interact_bothEars">
             <English>Both Ears</English>
@@ -50,16 +85,11 @@
             <Italian>Entrambe le orecchie</Italian>
             <French>Deux Oreilles</French>
             <Korean>양쪽 귀</Korean>
-        </Key>
-        <Key ID="STR_ACRE_ace_interact_setToBothEars">
-            <English>Set To Both Ears</English>
-            <Spanish>Usar ambos auriculares</Spanish>
-            <German>Auf beide Ohrhörer legen</German>
-            <Japanese>両耳側からに設定</Japanese>
-            <Czech>Nastavit do obou uší</Czech>
-            <Italian>Imposta su entrambe le orecchie</Italian>
-            <French>Régler sur les deux oreilles</French>
-            <Korean>양쪽 귀로 설정</Korean>
+            <Polish>Stereo</Polish>
+            <Russian>Оба уха</Russian>
+            <Chinese>雙耳模式</Chinese>
+            <Chinesesimp>双耳模式</Chinesesimp>
+            <Portuguese>Ambas Orelhas</Portuguese>
         </Key>
         <Key ID="STR_ACRE_ace_interact_leftEar">
             <English>Left Ear</English>
@@ -70,16 +100,11 @@
             <Italian>Orecchio Sinistro</Italian>
             <French>Oreille gauche</French>
             <Korean>왼쪽 귀</Korean>
-        </Key>
-        <Key ID="STR_ACRE_ace_interact_setToLeftEar">
-            <English>Set To Left Ear</English>
-            <Spanish>Usar auricular izquierdo</Spanish>
-            <German>Auf linken Ohrhörer legen</German>
-            <Japanese>左耳側からに設定</Japanese>
-            <Czech>Nastavit do levého ucha</Czech>
-            <Italian>Imposta sull'Orecchio Sinistro</Italian>
-            <French>Régler sur oreille gauche</French>
-            <Korean>왼쪽 귀로 설정</Korean>
+            <Polish>Lewe ucho</Polish>
+            <Russian>Левое ухо</Russian>
+            <Chinese>左耳模式</Chinese>
+            <Chinesesimp>左耳模式</Chinesesimp>
+            <Portuguese>Orelha Esquerda</Portuguese>
         </Key>
         <Key ID="STR_ACRE_ace_interact_rightEar">
             <English>Right Ear</English>
@@ -90,16 +115,11 @@
             <Italian>Orecchio Destro</Italian>
             <French>Oreille droite</French>
             <Korean>오른쪽 귀</Korean>
-        </Key>
-        <Key ID="STR_ACRE_ace_interact_setToRightEar">
-            <English>Set To Right Ear</English>
-            <Spanish>Usar auricular derecho</Spanish>
-            <German>Auf rechten Ohrhörer legen</German>
-            <Japanese>右耳側からに設定</Japanese>
-            <Czech>Nastavit do pravého ucha</Czech>
-            <Italian>Imposta sull'Orecchio Destro</Italian>
-            <French>Régler sur oreille droite</French>
-            <Korean>오른쪽 귀로 설정</Korean>
+            <Polish>Prawe ucho</Polish>
+            <Russian>Правое ухо</Russian>
+            <Chinese>右耳模式</Chinese>
+            <Chinesesimp>右耳模式</Chinesesimp>
+            <Portuguese>Orelha Direita</Portuguese>
         </Key>
         <Key ID="STR_ACRE_ace_interact_setAsActive">
             <English>Set as Active</English>
@@ -110,26 +130,41 @@
             <Italian>Imposta come Attivo</Italian>
             <French>Définir comme active</French>
             <Korean>주 무전기로 설정</Korean>
+            <Polish>Ustaw jako aktywne</Polish>
+            <Russian>Сделать активным</Russian>
+            <Chinese>設為啟用</Chinese>
+            <Chinesesimp>设为启用</Chinesesimp>
+            <Portuguese>Difinir Como Ativo</Portuguese>
         </Key>
         <Key ID="STR_ACRE_ace_interact_bindMultiPushToTalk">
-            <English>Bind Multi Push To Talk</English>
-            <Spanish>Definir como Multi Push To Talk</Spanish>
+            <English>Bind Multi PTT</English>
+            <Spanish>Definir como Multi PTT</Spanish>
             <German>Sprechtasten festlegen</German>
             <Japanese>マルチ プッシュ トークに割当</Japanese>
-            <Czech>Přiřadit klávesu pro Multi Push To Talk</Czech>
-            <Italian>Imposta Multi-PTT</Italian>
-            <French>Définir Multi Push To Talk</French>
+            <Czech>Přiřadit klávesu pro Multi PTT</Czech>
+            <Italian>Imposta Multi PTT</Italian>
+            <French>Définir Multi PTT</French>
             <Korean>멀티 PTT 설정</Korean>
+            <Polish>Ustaw klawisz PTT</Polish>
+            <Russian>Назначить общую ПТТ</Russian>
+            <Chinese>綁定多個按鍵發話</Chinese>
+            <Chinesesimp>绑定多个按键发话</Chinesesimp>
+            <Portuguese>Ligar Multi PTT</Portuguese>
         </Key>
         <Key ID="STR_ACRE_ace_interact_multiPushToTalk">
-            <English>Multi Push To Talk-%1</English>
-            <Spanish>Multi Push To Talk-%1</Spanish>
+            <English>Multi PTT %1</English>
+            <Spanish>Multi PTT %1</Spanish>
             <German>Sprechtaste %1</German>
-            <Japanese>マルチ プッシュ トーク-%1</Japanese>
-            <Czech>Multi Push To Talk-%1</Czech>
-            <Italian>Multi Push To Talk-%1</Italian>
-            <French>Multi Push To Talk-%1</French>
-            <Korean>멀티 PTT-%1</Korean>
+            <Japanese>マルチ プッシュ トーク %1</Japanese>
+            <Czech>Multi PTT %1</Czech>
+            <Italian>Multi PTT %1</Italian>
+            <French>Multi PTT %1</French>
+            <Korean>멀티 PTT %1</Korean>
+            <Polish>Klawisz PTT %1</Polish>
+            <Russian>Общая ПТТ %1</Russian>
+            <Chinese>多個發話 %1</Chinese>
+            <Chinesesimp>多个发话 %1</Chinesesimp>
+            <Portuguese>Multi PTT %1</Portuguese>
         </Key>
         <Key ID="STR_ACRE_ace_interact_setAsMultiPTT">
             <English>Set as Multi PTT %1</English>
@@ -140,6 +175,19 @@
             <Italian>Imposta Multi PTT %1</Italian>
             <French>Définir comme Multi PTT</French>
             <Korean>%1번 PTT로 설정</Korean>
+            <Polish>Ustaw Multi PTT %1</Polish>
+            <Russian>Назначить как общую ПТТ %1</Russian>
+            <Chinese>設定多個發話 %1</Chinese>
+            <Chinesesimp>设定多个发话 %1</Chinesesimp>
+            <Portuguese>Definir Como Multi PTT %1</Portuguese>
+        </Key>
+        <Key ID="STR_ACRE_ace_interact_straightenAntenna">
+            <English>Straighten antenna</English>
+            <German>Antenne gerade ausrichten</German>
+        </Key>
+        <Key ID="STR_ACRE_ace_interact_bendAntenna">
+            <English>Bend antenna upwards</English>
+            <German>Antenne biegen</German>
         </Key>
     </Package>
 </Project>

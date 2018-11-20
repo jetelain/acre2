@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 with uiNamespace do {
     {
@@ -22,7 +22,7 @@ with uiNamespace do {
     } forEach GVAR(rxAreas);
     GVAR(rxAreas) = [];
     {
-        _tile = GVAR(mapTiles) select _forEachIndex;
+        private _tile = GVAR(mapTiles) select _forEachIndex;
         _tile ctrlSetText "";
         _tile ctrlShow false;
         _tile ctrlCommit 0;

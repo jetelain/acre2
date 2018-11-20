@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 //I am not using the API for getting the volume because that could
 //be different from what the internal value is based on the speaker
@@ -43,7 +43,7 @@ if (_channelKnobPosition == 15) then { // programming (used to help program).
         GVAR(selectionDir) = 0;
     };
 
-    ["Acre_SEM52Knob", [0,0,0], [0,0,0], 0.3, false] call EFUNC(sys_sounds,playSound);
+    ["Acre_SEMKnob", [0,0,0], [0,0,0], 0.3, false] call EFUNC(sys_sounds,playSound);
 } else { // Channel selected do Volume control
     private _newKnobPosition = ((_knobPosition + _currentDirection) max 0) min 16;
 
@@ -55,7 +55,7 @@ if (_channelKnobPosition == 15) then { // programming (used to help program).
         private _newVolume = abs ((_newKnobPosition - 8)/8);
         ["setVolume", _newVolume] call GUI_DATA_EVENT;
 
-        ["Acre_SEM52Knob", [0,0,0], [0,0,0], 0.3, false] call EFUNC(sys_sounds,playSound);
+        ["Acre_SEMKnob", [0,0,0], [0,0,0], 0.3, false] call EFUNC(sys_sounds,playSound);
     };
 };
 [MAIN_DISPLAY] call FUNC(render);

@@ -1,22 +1,43 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
- * SHORT DESCRIPTION
+ * Handles multiple transmissions in the "singleChannel" mode. In this mode, the following parameters
+ * are used:
+ *
+ *  - frequencyTX
+ *  - frequencyRX
+ *  - power
+ *  - mode
+ *  - CTCSSTx
+ *  - CTCSSRx
+ *  - modulation
+ *  - encryption
+ *  - TEK
+ *  - trafficRate
+ *  - syncLength
+ *
+ * Depending on this parameters, the function determines if a transmission is usable by the radio or if it
+ * is ignored.
  *
  * Arguments:
- * 0: ARGUMENT ONE <TYPE>
- * 1: ARGUMENT TWO <TYPE>
+ * 0: Radio ID <STRING>
+ * 1: Event: "handleMultipleTransmission" <STRING> (Unused)
+ * 2: Event data: transmitting radio IDs <ARRAY>
+ * 3: Radio data <HASH> (Unused)
+ * 4: Remote <BOOL> (Unused)
  *
  * Return Value:
- * RETURN VALUE <TYPE>
+ * List of usable transmissions <ARRAY>
  *
  * Example:
- * [ARGUMENTS] call acre_COMPONENT_fnc_FUNCTIONNAME
+ * ["ACRE_PRC77_ID_1", "handleMultipleTransmissions", ["ACRE_PRC77_ID_2", "ACRE_PRC77_ID_3"], [], false] call acre_sys_prc77_fnc_handleMultipleTransmissions
  *
  * Public: No
  */
-#include "script_component.hpp"
 
-params ["_radioId","","_radios"];
+params ["_radioId", "", "_radios", "", ""];
+
+if (!([_radioId] call EFUNC(sys_radio,canUnitReceive))) exitWith { [] };
 
 if (SCRATCH_GET_DEF(_radioId, "PTTDown", false) && !EGVAR(sys_core,fullDuplex)) exitWith { [] };
 private _beeped = SCRATCH_GET(_radioId, "hasBeeped");
@@ -74,7 +95,7 @@ if (_transmissionsChanged) then {
     private _areAllRadiosInitialized = true;
 
     if ((count _radios) > 1) then {
-        _sorted = [];
+        private _sorted = [];
         {
             _x params ["","_txID","_signalData"];
             _signalData params ["_signalPercent"];
@@ -94,8 +115,8 @@ if (_transmissionsChanged) then {
         _sortedRadios = _radios;
     };
 
-    _dif = _transmissions - _currentTransmissions;
-    if ((count _dif) != 0) then {
+    private _dif = _transmissions - _currentTransmissions;
+    if (count _dif != 0) then {
         _currentTransmissions = _transmissions;
         SCRATCH_SET(_radioId, "currentTransmissions", _currentTransmissions);
     };
@@ -110,7 +131,7 @@ if (_transmissionsChanged) then {
         private _digital = false;
         {
             private _txId = _x select 1;
-            _radioTxData = [_txId, "getCurrentChannelData"] call EFUNC(sys_data,dataEvent);
+            private _radioTxData = [_txId, "getCurrentChannelData"] call EFUNC(sys_data,dataEvent);
             if (HASH_GET(_radioRxData, "modulation") == HASH_GET(_radioTxData, "modulation")) then {
                 //diag_log text "MOD OK";
                 if (HASH_GET(_radioRxData, "encryption") == 1 && HASH_GET(_radioTxData, "encryption") == 1) then {
@@ -195,7 +216,7 @@ if (_transmissionsChanged) then {
         //_channelNum = [_radioId, "getCurrentChannel"] call EFUNC(sys_data,dataEvent);
         //_channels = [_radioId, "getState", "channels"] call EFUNC(sys_data,dataEvent);
         //_channel = HASHLIST_SELECT(_channels, _channelNum);
-        _squelch = [_radioId, "getState", "squelch"] call EFUNC(sys_data,dataEvent);
+        private _squelch = [_radioId, "getState", "squelch"] call EFUNC(sys_data,dataEvent);
         _squelch = -116 + _squelch;
         // diag_log text format["squelch: %1 signal: %2", _squelch, _signalDbM];
         if (_signalDbM < _squelch || !EGVAR(sys_core,interference)) then {
@@ -205,7 +226,7 @@ if (_transmissionsChanged) then {
             private _pttDown = SCRATCH_GET_DEF(_radioId, "PTTDown", false);
             if (!_pttDown) then {
                 if (!isNil "_beeped" && {_beeped}) then {
-                    _volume = [_radioId, "getVolume"] call EFUNC(sys_data,dataEvent);
+                    private _volume = [_radioId, "getVolume"] call EFUNC(sys_data,dataEvent);
                     [_radioId, "Acre_GenericClickOff", [0,0,0], [0,1,0], _volume] call EFUNC(sys_radio,playRadioSound);
                 };
             };
@@ -214,7 +235,7 @@ if (_transmissionsChanged) then {
             if (isNil "_beeped" || {!_beeped}) then {
                 //diag_log "BEEP!";
                 SCRATCH_SET(_radioId, "hasBeeped", true);
-                _volume = [_radioId, "getVolume"] call EFUNC(sys_data,dataEvent);
+                private _volume = [_radioId, "getVolume"] call EFUNC(sys_data,dataEvent);
                 [_radioId, "Acre_GenericClickOn", [0,0,0], [0,1,0], _volume] call EFUNC(sys_radio,playRadioSound);
             };
         };
@@ -222,7 +243,7 @@ if (_transmissionsChanged) then {
         private _pttDown = SCRATCH_GET_DEF(_radioId, "PTTDown", false);
         if (!_pttDown) then {
             if (!isNil "_beeped" && {_beeped}) then {
-                _volume = [_radioId, "getVolume"] call EFUNC(sys_data,dataEvent);
+                private _volume = [_radioId, "getVolume"] call EFUNC(sys_data,dataEvent);
                 [_radioId, "Acre_GenericClickOff", [0,0,0], [0,1,0], _volume] call EFUNC(sys_radio,playRadioSound);
             };
         };

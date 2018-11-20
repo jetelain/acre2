@@ -1,3 +1,5 @@
+PREP(missionDisplayLoad);
+
 // Volume control
 PREP(openVolumeControl);
 PREP(closeVolumeControl);
@@ -19,4 +21,8 @@ PREP(inventoryListMouseUp);
 PREP(uniqueArray);
 PREP(onInventoryAction);
 PREP(handleContextMenu);
+PREP(handleTake);
 PREP(inventoryMonitorPFH);
+
+PREP(updateVehicleInfo);
+PREP(antennaElevationDisplay);

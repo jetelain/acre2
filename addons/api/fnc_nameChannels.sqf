@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * For use by the ACRE API nameChannels module.
@@ -15,7 +16,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 FUNC(_channelNamesForPresets) = {
     params ["_channelNames", "_presetNames"];
@@ -27,11 +27,17 @@ FUNC(_channelNamesForPresets) = {
                 private _channelName = _x;
                 private _channelNumber = _forEachIndex;
                 {
-                    //["ACRE_PRC117F",["default3"],10,"label","SUPPORT"]
-                    #ifdef DEBUG_MODE_FULL
-                        diag_log text format ["%1, %2, %3, %4, %5", _x select 0, _x select 1, _channelNumber + 1, "label", _channelName];
-                    #endif
-                    [_x select 0, _x select 1, _channelNumber + 1, "label", _channelName] call FUNC(setPresetChannelField);
+                    _x params ["_radioClass", "_presetName"];
+
+                    // Filter out preset channel if greater than supported channel (eg. ACRE_PRC77 only has 2 presets)
+                    private _presetData = [_radioClass, _presetName] call EFUNC(sys_data,getPresetData);
+                    if (!isNil "_presetData" && {count HASH_GET(_presetData,"channels") >= _channelNumber}) then {
+                        // Example: ["ACRE_PRC117F", "default3", 10, "label", "SUPPORT"]
+                        #ifdef DEBUG_MODE_FULL
+                            diag_log text format ["%1, %2, %3, %4, %5", _radioClass, _presetName, _channelNumber + 1, "label", _channelName];
+                        #endif
+                        [_radioClass, _presetName, _channelNumber + 1, "label", _channelName] call FUNC(setPresetChannelField);
+                    };
                 } forEach _presetNames;
             };
         } forEach _channelNames;

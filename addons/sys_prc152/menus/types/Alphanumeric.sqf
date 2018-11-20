@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 GVAR(NumpadMap) = [
     [" ", "0"],
@@ -30,7 +30,6 @@ GVAR(NumpadMap) = [
 ];
 
 DFUNC(doAlphanumericButton) = {
-    //TRACE_1(QUOTE(FUNC(doNumberButton)), _this);
     params ["_menu", "_event"];
 
     private _editIndex = SCRATCH_GET_DEF(GVAR(currentRadioId), "menuAlphaCursor", 0);
@@ -52,8 +51,8 @@ DFUNC(doAlphanumericButton) = {
     TRACE_1("", _number);
     if (_number > -1 && _number < 10) then {
 
-        _arr = toArray _value;
-        _character = _arr select _editIndex;
+        private _arr = toArray _value;
+        private _character = _arr select _editIndex;
 
         _character = ( toArray ((GVAR(NumpadMap) select _number) select _editButtonPress) select 0);
         TRACE_4("Values", _character, _number, _editButtonPress, _arr);
@@ -83,7 +82,6 @@ DFUNC(doAlphanumericButton) = {
 };
 
 DFUNC(onButtonPress_Alphanumeric) = {
-    //TRACE_1(QUOTE(FUNC(onButtonPress_Alphanumeric)), _this);
     params ["_menu", "_event"];
 
     private _value = SCRATCH_GET_DEF(GVAR(currentRadioId), "menuString", "");
@@ -170,13 +168,12 @@ DFUNC(onButtonPress_Alphanumeric) = {
 };
 
 DFUNC(renderMenu_Alphanumeric) = {
-    //TRACE_1(QUOTE(FUNC(renderMenu_Alphanumeric)), _this);
     params ["_menu"]; // the menu to render is passed
 
     private _displaySet = MENU_SUBMENUS(_menu);
 
     private _editIndex = SCRATCH_GET_DEF(GVAR(currentRadioId), "menuAlphaCursor", 0);
-    private _value =  SCRATCH_GET_DEF(GVAR(currentRadioId), "menuString", "");
+    private _value = SCRATCH_GET_DEF(GVAR(currentRadioId), "menuString", "");
 
     private _valueHash = HASH_CREATE;
     HASH_SET(_valueHash, "1", _value);

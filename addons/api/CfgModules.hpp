@@ -1,6 +1,6 @@
 class CfgFactionClasses {
     class NO_CATEGORY;
-    class GVAR(mission_setup) : NO_CATEGORY {
+    class GVAR(mission_setup): NO_CATEGORY {
         displayName = "ACRE";
     };
 };
@@ -8,10 +8,10 @@ class CfgVehicles {
     class Logic;
     class Module_F: Logic { class ArgumentsBaseUnits { class Units; }; class ModuleDescription { class AnyBrain; }; };
 
-    class GVAR(basicMissionSetup) : Module_F {
+    class GVAR(basicMissionSetup): Module_F {
         scope = 2;
         displayName = "Basic Mission Setup";
-        author = "ACRE Team";
+        author = ECSTRING(main,Author);
         category = QGVAR(mission_setup);
 
         function = "AcreModules_fnc_basicMissionSetup";
@@ -68,12 +68,12 @@ class CfgVehicles {
         };
     };
 
-    class GVAR(DifficultySettings) : Module_F {
+    // Unused, backwards compatibility only
+    class GVAR(DifficultySettings): Module_F {
         scope = 1;
         displayName = "Difficulty Settings";
         category = QGVAR(mission_setup);
 
-        function = "AcreModules_fnc_difficultySettings";
         functionPriority = 20;
         isGlobal = 2;
         isTriggerActivated = 0;
@@ -119,10 +119,10 @@ class CfgVehicles {
         };
     };
 
-    class GVAR(nameChannels) : Module_F {
+    class GVAR(nameChannels): Module_F {
         scope = 2;
         displayName = "Name Channels";
-        author = "ACRE Team";
+        author = ECSTRING(main,Author);
         category = QGVAR(mission_setup);
 
         function = "AcreModules_fnc_nameChannels";
@@ -140,8 +140,7 @@ class CfgVehicles {
                 displayName = "Side";
                 description = "Select the side to name channels for";
                 typeName = "NUMBER";
-                class values
-                {
+                class values {
                     class All    {name = "All";    value = 1; default = 1;};
                     class West    {name = "West"; value = 2;};
                     class East    {name = "East"; value = 3;};

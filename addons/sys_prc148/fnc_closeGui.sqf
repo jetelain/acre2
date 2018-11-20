@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,10 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
+
+params ["_radioId", "", "", "", ""];
+
+[_radioId, false] call EFUNC(sys_radio,setRadioOpenState);
 
 [GVAR(PFHId)] call CBA_fnc_removePerFrameHandler;
 GVAR(currentRadioId) = nil;

@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,7 @@
  *
  * Public: No
  */
- 
+
 /*
  *  This function returns all specific data of the
  *  channel which number is parsed to the event.
@@ -36,7 +37,6 @@
  *  Returned parameters:
  *      Hash containing all data of parsed channel number
 */
-#include "script_component.hpp"
 
 params ["_radioId", "_event", "_eventData", "_radioData"];
 

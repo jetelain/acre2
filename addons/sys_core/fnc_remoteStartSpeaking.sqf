@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * Handles the event of other (remote) players starting to speaking.
@@ -17,7 +18,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 ACRE_COUNTERS = [];
 CREATE_COUNTER(speaking_loop);
@@ -38,8 +38,6 @@ params ["_speakingId","_languageId","_netId","_onRadio",["_radioId",","]];
 if (!(_speakingId isEqualType 0)) then { _speakingId = parseNumber _speakingId; };
 if (!(_languageId isEqualType 0)) then { _languageId = parseNumber _languageId; };
 if (!(_onRadio isEqualType 0)) then { _onRadio = parseNumber _onRadio; };
-
-
 
 
 private _result = false;
@@ -79,8 +77,7 @@ private _result = false;
     };
 
     if (isNull _unit) exitWith {
-        _msg = format ["START SPEAKING: acre_player [%1] could not find a player with ID: %2 %3, On Radio: %4", acre_player, _speakingId, _netId, _onRadio];
-        WARNING(_msg);
+        WARNING_4("START SPEAKING: acre_player [%1] could not find a player with ID: %2 %3, On Radio: %4",acre_player,_speakingId,_netId,_onRadio);
         false
     };
 
@@ -94,27 +91,33 @@ private _result = false;
         _unit setVariable [QGVAR(lastSpeakingEventTime), diag_tickTime, false];
         if (_onRadio == 1) then {
             if ([_radioId] call EFUNC(sys_radio,radioExists)) then {
+                // Handle rack radios or shared manpack radios that are simultaneously in use.
+                if (_radioId in ACRE_ACCESSIBLE_RACK_RADIOS || {_radioId in ACRE_HEARABLE_RACK_RADIOS} || {_radioId in ACRE_EXTERNALLY_USED_MANPACK_RADIOS} || {_radioId in ACRE_ACTIVE_EXTERNAL_RADIOS}) then {
+                    ACRE_BLOCKED_TRANSMITTING_RADIOS pushBackUnique _radioId;
+                };
+
                 GVAR(speakers) pushBack _unit;
                 private _val = [_netId, _speakingId];
                 HASH_SET(GVAR(keyedRadioIds), _radioId, _val);
                 _unit setVariable [QGVAR(currentSpeakingRadio), _radioId];
-                _speakerRadio = [];
-                _nearRadios = [ACRE_LISTENER_POS, 150] call EFUNC(sys_radio,nearRadios);
+                private _speakerRadio = [];
+                private _nearRadios = [ACRE_LISTENER_POS, 150] call EFUNC(sys_radio,nearRadios);
                 {
                     if ([_x, "isExternalAudio"] call EFUNC(sys_data,dataEvent)) then {
                         _speakerRadio pushBack _x;
                     };
                 } forEach _nearRadios;
                 GVAR(nearRadios) = _speakerRadio;
-                _personalRadioList = [] call EFUNC(sys_data,getPlayerRadioList);
-                if (_radioId in _personalRadioList && ACRE_BROADCASTING_RADIOID == "") then {
+                private _personalRadioList = [] call EFUNC(sys_data,getPlayerRadioList);
+                if (_radioId in _personalRadioList && {ACRE_BROADCASTING_RADIOID == ""}) then {
                     ACRE_BROADCASTING_RADIOID = _radioId;
                     // diag_log text format["ASSIGNED ACRE_BROADCASTING_RADIOID REMOTE START: %1", ACRE_BROADCASTING_RADIOID];
                 };
                 private _okRadios = [[_radioId], _personalRadioList + GVAR(nearRadios), false] call EFUNC(sys_modes,checkAvailability);
                 _okRadios = (_okRadios select 0) select 1;
+
                 //_okRadios = _okRadios - [ACRE_BROADCASTING_RADIOID];
-                if ((count _okRadios) > 0) then {
+                if !(_okRadios isEqualTo []) then {
                     missionNamespace setVariable [_radioId + "_signal_startTime", diag_tickTime];
                     _result = true;
                     GVAR(speaking_cache_valid) = false;

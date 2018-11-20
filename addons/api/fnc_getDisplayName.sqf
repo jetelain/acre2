@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * Gets the display name for a radio ID.
@@ -13,11 +14,12 @@
  *
  * Public: Yes
  */
-#include "script_component.hpp"
 
-params ["_radioId"];
+params [
+    ["_radioId", "", [""]]
+];
 
-private _baseClass = BASECLASS(_radioId);
+private _baseClass = BASE_CLASS_CONFIG(_radioId);
 private _typeName = getText (configFile >> "CfgAcreComponents" >> _baseClass >> "name");
 
 _typeName

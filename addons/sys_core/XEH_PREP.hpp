@@ -1,9 +1,11 @@
+PREP(addDisplayPassthroughKeys);
 PREP(addGear);
 PREP(addLanguageType);
 PREP(aliveMonitor);
 PREP(callExt);
 PREP(canUnderstand);
 PREP(cycleLanguage);
+PREP(displayNotification);
 PREP(findOcclusion);
 PREP(getAlive);
 PREP(getClientIdLoop);
@@ -12,6 +14,7 @@ PREP(getHeadVector);
 PREP(getGear);
 PREP(getLanguageId);
 PREP(getLanguageName);
+PREP(getPlayersInVehicle);
 PREP(getSpeakingLanguageId);
 PREP(getSpokenLanguages);
 PREP(handleGetClientID);
@@ -19,12 +22,14 @@ PREP(handleGetHeadVector);
 PREP(handleGetPluginVersion);
 PREP(handleMultiPttKeyPress);
 PREP(handleMultiPttKeyPressUp);
+PREP(hasAccessToVehicleSystem);
 PREP(isMuted);
 PREP(localStartSpeaking);
 PREP(localStopSpeaking);
 PREP(muting);
 PREP(onPlayerKilled);
 PREP(pong);
+PREP(processVehicleSystemAccessArray);
 PREP(processDirectSpeaker);
 PREP(processRadioSpeaker);
 PREP(remoteStartSpeaking);
@@ -48,11 +53,15 @@ PREP(disableRevealAI);
 PREP(enableRevealAI);
 PREP(onRevealUnit);
 
-
-PREP(fastHashCopy);
-PREP(fastHashCopyArray);
-//PREP(fastHashCreate);
-PREP(fastHashKeys);
-
 PREP(coreInitPFH);
-PREP(vehicleCrewPFH);
+
+PREP(arsenalOpen);
+PREP(arsenalClose);
+PREP(spectatorEGDisplayLoad);
+PREP(spectatorEGDisplayUnload);
+
+PREP(setInterference);
+PREP(setFullDuplex);
+PREP(ignoreAntennaDirection);
+PREP(setLossModelScale);
+PREP(setRevealToAI);

@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 #define RADIO_CTRL(var1) (_display displayCtrl var1)
 disableSerialization;
 params ["_display"];
@@ -47,7 +47,7 @@ private _volImages = [
 private _channelKnobPosition = GET_STATE("channelKnobPosition");
 if (_channelKnobPosition == 15) then { //programming mode p
     // Wiggle the knob one state over depending on the selection Dir.
-    _newIdx = _volumeKnobPosition + (-1 * GVAR(selectionDir)); // works the opposite way to the sorting.
+    private _newIdx = _volumeKnobPosition + (-1 * GVAR(selectionDir)); // works the opposite way to the sorting.
     if (_newIdx > 16) then { _newIdx = 1; };
     if (_newIdx < 0) then {_newIdx = 15; };
     RADIO_CTRL(107) ctrlSetText (_volImages select _newIdx);

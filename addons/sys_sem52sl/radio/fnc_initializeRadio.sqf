@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 /*
  *    This function is called when a radio is initialized.
@@ -64,14 +64,14 @@ private _channels = HASH_GET(_presetData,"channels");
 
 SCRATCH_SET(_radioId, "currentTransmissions", []);
 
-_currentChannels = HASH_GET(_radioData,"channels");
+private _currentChannels = HASH_GET(_radioData,"channels");
 if (isNil "_currentChannels") then {
     _currentChannels = [];
     HASH_SET(_radioData,"channels",_currentChannels);
 };
 
 for "_i" from 0 to (count _channels)-1 do {
-    _channelData = HASH_COPY(_channels select _i);
+    private _channelData = HASH_COPY(_channels select _i);
     TRACE_1("Setting " + QUOTE(RADIONAME) + " Init Channel Data", _channelData);
     PUSH(_currentChannels, _channelData);
 };

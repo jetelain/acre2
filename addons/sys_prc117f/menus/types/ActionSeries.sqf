@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 DFUNC(onButtonPress_ActionSeries) = {
     TRACE_1("onButtonPress_List", _this);
@@ -66,7 +66,7 @@ DFUNC(renderMenu_ActionSeries) = {
         // if it handled its own exit and navigated to a different menu
         if (isNil "_ret") then { _ret = false; };
         if (!_ret) then {
-            _parent = MENU_PARENT(_menu);
+            private _parent = MENU_PARENT(_menu);
             TRACE_1("Calling Parent!", _parent);
             [_parent] call FUNC(changeMenu);
         };

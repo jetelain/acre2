@@ -5,19 +5,15 @@ class CfgFunctions {
 
             PATHTO_FNC(setupMission);
 
+            PATHTO_FNC(addDisplayPassthroughKeys);
+
             PATHTO_FNC(getMultiPushToTalkAssignment);
             PATHTO_FNC(setMultiPushToTalkAssignment);
 
             PATHTO_FNC(setPTTDelay);
             PATHTO_FNC(getPTTDelay);
 
-            PATHTO_FNC(setRevealToAI);
             PATHTO_FNC(getRevealToAI);
-
-            PATHTO_FNC(setLossModelScale);
-            PATHTO_FNC(setFullDuplex);
-            PATHTO_FNC(setInterference);
-            PATHTO_FNC(ignoreAntennaDirection);
 
             PATHTO_FNC(setCustomSignalFunc);
 
@@ -50,6 +46,19 @@ class CfgFunctions {
             PATHTO_FNC(setCurrentRadioChannelNumber);
             PATHTO_FNC(getCurrentRadioChannelNumber);
         };
+
+        class Racks {
+            PATHTO_FNC(addRackToVehicle);
+            PATHTO_FNC(areVehicleRacksInitialized);
+            PATHTO_FNC(getMountedRackRadio);
+            PATHTO_FNC(getVehicleRacks);
+            PATHTO_FNC(initVehicleRacks);
+            PATHTO_FNC(isRackRadioRemovable);
+            PATHTO_FNC(mountRackRadio);
+            PATHTO_FNC(removeRackFromVehicle);
+            PATHTO_FNC(unmountRackRadio);
+        };
+
         class Presets {
             PATHTO_FNC(setPreset);
             PATHTO_FNC(getPreset);
@@ -63,6 +72,9 @@ class CfgFunctions {
 
             PATHTO_FNC(setPresetChannelField);
             PATHTO_FNC(getPresetChannelField);
+
+            PATHTO_FNC(setVehicleRacksPreset);
+            PATHTO_FNC(getVehicleRacksPreset);
         };
         class Speaking {
             PATHTO_FNC(isBroadcasting);
@@ -97,7 +109,6 @@ class CfgFunctions {
     class AcreModules {
         class GVAR(mission_setup) {
             PATHTO_FNC(basicMissionSetup);
-            PATHTO_FNC(difficultySettings);
             PATHTO_FNC(nameChannels);
         };
     };

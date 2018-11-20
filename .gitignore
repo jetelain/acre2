@@ -1,4 +1,5 @@
 release/*
+symbols/*
 *.cache
 *.pbo
 texHeaders.bin
@@ -9,5 +10,6 @@ Thumbs.db
 *.dll
 *.exe
 *.vscode*
+*.out
 @acre2/*
 acre2_*.zip

@@ -1,6 +1,9 @@
 PREP(actionSetMTT);
-PREP(actionSetSpatialAudio);
+PREP(generateConnectors);
+PREP(generateConnectorActions);
+PREP(generateConnectorList);
 PREP(generateSpatialChildrenActions);
+PREP(generateRxTxChildrenActions);
 PREP(radioChildrenActions);
 PREP(radioListChildrenActions);
 PREP(radioPTTChildrenActions);

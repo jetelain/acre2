@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * Checks whether the provided unit (or by default local player) is spectating.
@@ -14,16 +15,13 @@
  *
  * Public: Yes
  */
-#include "script_component.hpp"
 
-params [["_unit",acre_player]];
+params [
+    ["_unit", acre_player, [objNull]]
+];
 
-if (_unit == acre_player) exitWith {
+if (_unit == acre_player) then {
     ACRE_IS_SPECTATOR
+} else {
+    _unit in ACRE_SPECTATORS_LIST
 };
-
-if ( _unit in ACRE_SPECTATORS_LIST) exitWith {
-    true
-};
-
-_spectVariable

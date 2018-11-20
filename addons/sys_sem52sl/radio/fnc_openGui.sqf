@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 /*
  *     On a command to open the radio this function will be called.
@@ -37,10 +37,14 @@
  *    Returned parameters:
  *        true
 */
+params ["_radioId", "", "", "", ""];
+
+// Prevent radio from being opened if it is externally used or it is not accessible
+if (!([_radioId] call EFUNC(sys_radio,canOpenRadio))) exitWith { false };
 
 disableSerialization;
 //PARAMS_1(GVAR(currentRadioId))
-GVAR(currentRadioId) = _this select 0;
+GVAR(currentRadioId) = _radioId;
 GVAR(depressedPTT) = false;
 if (([GVAR(currentRadioId), "getState", "channelKnobPosition"] call EFUNC(sys_data,dataEvent)) == 15) then { // is programming
     GVAR(backlightOn) = true;
@@ -49,6 +53,8 @@ if (([GVAR(currentRadioId), "getState", "channelKnobPosition"] call EFUNC(sys_da
 };
 GVAR(lastAction) = time;
 createDialog "SEM52SL_RadioDialog";
+
+[_radioId, true] call EFUNC(sys_radio,setRadioOpenState);
 
 // Use this to turn off the backlight display//also to save last channel
 

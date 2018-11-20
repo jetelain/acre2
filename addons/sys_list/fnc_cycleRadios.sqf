@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 LOG("HIT CYCLE RADIO");
 if (!dialog) then {
@@ -27,7 +27,13 @@ if (!dialog) then {
     {
         private _radioClass = _x;
         private _listInfo = [_radioClass, "getListInfo"] call EFUNC(sys_data,dataEvent);
-        private _realRadio = [_radioClass] call EFUNC(sys_radio,getRadioBaseClassname);
+        private _radioRack = [_radioClass] call EFUNC(sys_rack,getRackFromRadio);
+        private _realRadio = "";
+        if (_radioRack == "") then {
+            _realRadio = [_radioClass] call EFUNC(sys_radio,getRadioBaseClassname);
+        } else {
+            _realRadio = [_radioRack] call EFUNC(sys_rack,getRackBaseClassname);
+        };
         private _typeName = getText (configFile >> "CfgAcreComponents" >> _realRadio >> "name");
         private _radio = [_typeName, _listInfo, _radioClass];
         TRACE_2("heh", _radioClass, ACRE_ACTIVE_RADIO);
@@ -59,9 +65,7 @@ if (!dialog) then {
         private _activateRadio = _radios select _newRadioIndex;
         TRACE_1("Active is now", _activateRadio);
         [(_activateRadio select 2)] call EFUNC(sys_radio,setActiveRadio);
-        //diag_log "GO GO GOGO";
-        //diag_log text format["'%1'", _activateRadio];
-        [(_activateRadio select 0), (_activateRadio select 1), "", 1] call FUNC(displayHint);
+        [(_activateRadio select 0), (_activateRadio select 1), "", 1, [ACRE_NOTIFICATION_PURPLE]] call FUNC(displayHint);
     };
 };
 

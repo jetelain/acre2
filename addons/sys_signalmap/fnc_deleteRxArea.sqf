@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,12 +15,11 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 with uiNamespace do {
-    _index = lbCurSel GVAR(rxAreaList);
-    _areaIndex = parseNumber (GVAR(rxAreaList) lbData _index);
+    private _index = lbCurSel GVAR(rxAreaList);
+    private _areaIndex = parseNumber (GVAR(rxAreaList) lbData _index);
     GVAR(rxAreaList) lbDelete _index;
-    _deleted = GVAR(rxAreas) deleteAt _areaIndex;
+    private _deleted = GVAR(rxAreas) deleteAt _areaIndex;
     deleteMarker (_deleted select 1);
 };

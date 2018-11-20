@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 TRACE_1("NETWORK DATA EVENT", _this);
 
@@ -25,7 +25,7 @@ if (ACRE_DATA_SYNCED) then {
     if (!(_eventId in GVAR(pendingNetworkEvents))) then {
         {
             _x params ["_unit", "_radioId", "_event", "_data", ["_eventKind", "CfgAcreDataInterface"]];
-            /*_eventKind     = "CfgAcreDataInterface";
+            /*_eventKind = "CfgAcreDataInterface";
             if ((count _x) > 4) then {
                 _eventKind = _x select 4;
             } else {
@@ -33,14 +33,14 @@ if (ACRE_DATA_SYNCED) then {
             };*/
             _data = _data call FUNC(deserialize);
             TRACE_1("NETWORK EVENT",_x);
-            _params = [_eventKind, _radioId, _event, _data, true];
+            private _params = [_eventKind, _radioId, _event, _data, true];
             TRACE_1("PARAMS 1", _params);
             _params call FUNC(processSysEvent);
             TRACE_1("PARAMS 2", _params);
             _params call FUNC(processRadioEvent);
             TRACE_1("PARAMS 3", _params);
             if (isServer) then {
-                _radio = HASH_GET(GVAR(currentRadioStates),_radioId);
+                private _radio = HASH_GET(GVAR(currentRadioStates),_radioId);
                 if (isNil "_radio") then {
                     _radio = HASH_CREATE;
                     HASH_SET(GVAR(currentRadioStates),_radioId,_radio);

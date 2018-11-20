@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * Takes an actual unique radio ID, and returns its actual base radio type
@@ -13,24 +14,26 @@
  *
  * Public: Yes
  */
-#include "script_component.hpp"
 
-params ["_radioId"];
+params [
+    ["_radioId", "", [""]]
+];
 
 TRACE_1("", _radioId);
 if ( ([_radioId] call FUNC(isBaseRadio)) ) exitWith {
     _radioId
 };
 
-private _parent = configName (inheritsFrom ( configFile >> "CfgAcreComponents" >> _radioId));
+private _parent = configName (inheritsFrom (configFile >> "CfgAcreComponents" >> _radioId));
 if (_parent == "") then {
     _parent = [_radioId] call EFUNC(sys_radio,getRadioBaseClassname);
 };
+
 private _hasUnique = 0;
 while { _hasUnique != 1 && _parent != ""} do {
     _hasUnique = getNumber (configFile >> "CfgWeapons" >> _parent >> "acre_hasUnique");
     if (_hasUnique != 1) then {
-        _parent = configName (inheritsFrom ( configFile >> "CfgWeapons" >> _parent));
+        _parent = configName (inheritsFrom (configFile >> "CfgWeapons" >> _parent));
     };
 };
 

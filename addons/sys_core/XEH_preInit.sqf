@@ -1,12 +1,13 @@
 #include "script_component.hpp"
 
-#include "initSettings.sqf" // CBA Settings
-
 ADDON = false;
 
 PREP_RECOMPILE_START;
 #include "XEH_PREP.hpp"
 PREP_RECOMPILE_END;
+
+// CBA Settings
+#include "initSettings.sqf"
 
 if (!hasInterface) exitWith {
     ADDON = true;
@@ -19,6 +20,7 @@ if (!hasInterface) exitWith {
 */
 
 // globals
+DGVAR(antennaDirUp) = false;
 DGVAR(lowered) = 0;
 DGVAR(muting) = [];
 DGVAR(speakers) = [];
@@ -66,6 +68,7 @@ GVAR(delayReleasePTT_Handle) = nil;
 
 DVAR(ACRE_ACTIVE_PTTKEY) = -2;
 DVAR(ACRE_BROADCASTING_RADIOID) = "";
+DVAR(ACRE_BROADCASTING_NOTIFICATION_LAYER) = ""; // Name of the notification system layer where the current broadcast is displayed
 
 DVAR(ACRE_CURRENT_LANGUAGE_ID) = 0;
 DVAR(ACRE_SPOKEN_LANGUAGES) = [];
@@ -76,6 +79,16 @@ DGVAR(languages) = [];
 
 DVAR(ACRE_TEST_OCCLUSION) = true;
 DVAR(ACRE_SIGNAL_DEBUGGING) = 0;
+
+DVAR(ACRE_ACTIVE_EXTERNAL_RADIOS) = [];          // Radios not in player's inventory
+DVAR(ACRE_EXTERNALLY_USED_MANPACK_RADIOS) = [];  // Manpack radios in player's inventory that are being used externally
+DVAR(ACRE_EXTERNALLY_USED_PERSONAL_RADIOS) = []; // Personal radios in player's inventory that are being used externally
+DVAR(ACRE_ACCESSIBLE_RACK_RADIOS) = [];          // Extra radios that a player can use, should be used for radios that are racked
+DVAR(ACRE_HEARABLE_RACK_RADIOS) = [];            // Extra rack radios that a player can use
+DVAR(ACRE_ARSENAL_RADIOS) = [];                  // Radios that are 'stashed' while arsenal is open.
+DVAR(ACRE_BLOCKED_TRANSMITTING_RADIOS) = [];
+
+DGVAR(arsenalOpen) = false;
 
 acre_player = player;
 
@@ -103,7 +116,7 @@ private _monitorFnc = {
         private _callBack = GVAR(threadedExtCalls) select _id;
         if (IS_ARRAY(_callBack)) then {
             private _args = (_res select 1);
-            if (count _args > 0) then {
+            if !(_args isEqualTo []) then {
                 _args = _args select 0;
             };
             [_callBack select 0, _args] call (_callBack select 1);

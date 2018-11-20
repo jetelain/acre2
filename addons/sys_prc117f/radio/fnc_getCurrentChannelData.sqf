@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 TRACE_1("", _this);
 params ["_radioId", "_event", "_eventData", "_radioData"];
@@ -53,7 +53,11 @@ switch _channelType do {
         HASH_SET(_return, "mode", "singleChannel");
         HASH_SET(_return, "frequencyTX", HASH_GET(_currentChannelData, "frequencyTX"));
         HASH_SET(_return, "frequencyRX", HASH_GET(_currentChannelData, "frequencyRX"));
-        HASH_SET(_return, "power", HASH_GET(_currentChannelData, "power"));
+        if (HASH_GET(_radioData, "pgm_pa_mode") == "ON" && {HASH_GET(_radioData, "powerSource") == "VAU"}) then {
+            HASH_SET(_return, "power", VRC103_RACK_POWER);
+        } else {
+            HASH_SET(_return, "power", HASH_GET(_currentChannelData, "power"));
+        };
         HASH_SET(_return, "CTCSSTx", HASH_GET(_currentChannelData, "CTCSSTx"));
         HASH_SET(_return, "CTCSSRx", HASH_GET(_currentChannelData, "CTCSSRx"));
         HASH_SET(_return, "modulation", HASH_GET(_currentChannelData, "modulation"));

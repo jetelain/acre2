@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: ACRE2Team
  * SHORT DESCRIPTION
@@ -14,7 +15,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 
 // channels information
 private _presetData = HASH_CREATE;
@@ -123,7 +123,6 @@ for "_i" from 0 to 99 do {
             };
         } forEach _usedPresetFrequencies;
         if (_ok || (count _usedPresetFrequencies) == 0) then {
-            _find = false;
             PUSH(_usedPresetFrequencies, _frequency);
         };
     };
@@ -170,7 +169,6 @@ for "_i" from 0 to 99 do {
             };
         } forEach _usedPresetFrequencies;
         if (_ok || (count _usedPresetFrequencies) == 0) then {
-            _find = false;
             PUSH(_usedPresetFrequencies, _frequency);
         };
     };
