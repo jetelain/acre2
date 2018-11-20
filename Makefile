@@ -3,6 +3,7 @@ BIN = @acre2
 ZIP = acre2
 FLAGS = -i include -w unquoted-string -w redefinition-wo-undef
 VERSION_FILES = README.md docs/_data/sidebar.yml
+COPY_FILES = *.dll acre_logo_medium_ca.paa LICENSE meta.cpp mod.cpp README.md extras/ plugin/
 
 MAJOR = $(shell grep "^\#define[[:space:]]*MAJOR" addons/main/script_version.hpp | egrep -m 1 -o '[[:digit:]]+')
 MINOR = $(shell grep "^\#define[[:space:]]*MINOR" addons/main/script_version.hpp | egrep -m 1 -o '[[:digit:]]+')
@@ -28,6 +29,7 @@ $(BIN)/optionals/$(PREFIX)_%.pbo: optionals/%
 
 all: $(patsubst addons/%, $(BIN)/addons/$(PREFIX)_%.pbo, $(wildcard addons/*)) \
 		$(patsubst optionals/%, $(BIN)/optionals/$(PREFIX)_%.pbo, $(wildcard optionals/*))
+	@cp -ru $(COPY_FILES) $(BIN)
 
 filepatching:
 	"$(MAKE)" $(MAKEFLAGS) FLAGS="-w unquoted-string -p"
@@ -45,8 +47,8 @@ $(BIN)/optionals/$(PREFIX)_%.pbo.$(PREFIX)_$(VERSION_FULL)-$(GIT_HASH).bisign: $
 	@echo "  SIG  $@"
 	@armake sign -f -s $@ $(BIN)/keys/$(PREFIX)_$(VERSION_FULL).biprivatekey $<
 
-signatures: $(patsubst addons/%, $(BIN)/addons/$(PREFIX)_%.pbo.$(PREFIX)_$(VERSION_FULL).bisign, $(wildcard addons/*)) \
-		$(patsubst optionals/%, $(BIN)/optionals/$(PREFIX)_%.pbo.$(PREFIX)_$(VERSION_FULL).bisign, $(wildcard optionals/*))
+signatures: $(patsubst addons/%, $(BIN)/addons/$(PREFIX)_%.pbo.$(PREFIX)_$(VERSION_FULL)-$(GIT_HASH).bisign, $(wildcard addons/*)) \
+		$(patsubst optionals/%, $(BIN)/optionals/$(PREFIX)_%.pbo.$(PREFIX)_$(VERSION_FULL)-$(GIT_HASH).bisign, $(wildcard optionals/*))
 
 extensions: $(wildcard extensions/*/*)
 	cd extensions/vcproj && cmake .. && make
@@ -67,7 +69,7 @@ version:
 release: clean
 	@"$(MAKE)" $(MAKEFLAGS) signatures
 	@echo "  ZIP  $(ZIP)_$(VERSION).zip"
-	@cp *.dll acre_logo_medium_ca.paa LICENSE meta.cpp mod.cpp README.md $(BIN)
+	@cp -r $(COPY_FILES) $(BIN)
 	@zip -qr $(ZIP)_$(VERSION).zip $(BIN)
 
 clean:
