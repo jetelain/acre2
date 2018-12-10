@@ -13,15 +13,21 @@ VERSION = $(MAJOR).$(MINOR).$(PATCH)
 VERSION_FULL = $(VERSION).$(BUILD)
 GIT_HASH = $(shell git log -1 --pretty=format:"%H" | head -c 8)
 
+ifeq ($(OS), Windows_NT)
+	ARMAKE = ./tools/armake2.exe
+else
+	ARMAKE = armake2
+endif
+
 $(BIN)/addons/$(PREFIX)_%.pbo: addons/%
 	@mkdir -p $(BIN)/addons
 	@echo "  PBO  $@"
-	@armake build ${FLAGS} -f -e "version=$(GIT_HASH)" $< $@
+	@${ARMAKE} build ${FLAGS} -f -e "version=$(GIT_HASH)" $< $@
 
 $(BIN)/optionals/$(PREFIX)_%.pbo: optionals/%
 	@mkdir -p $(BIN)/optionals
 	@echo "  PBO  $@"
-	@armake build ${FLAGS} -f -e "version=$(GIT_HASH)" $< $@
+	@${ARMAKE} build ${FLAGS} -f -e "version=$(GIT_HASH)" $< $@
 
 # Shortcut for building single addons (eg. "make <component>.pbo")
 %.pbo:
@@ -37,15 +43,15 @@ filepatching:
 $(BIN)/keys/%.biprivatekey:
 	@mkdir -p $(BIN)/keys
 	@echo "  KEY  $@"
-	@armake keygen -f $(patsubst $(BIN)/keys/%.biprivatekey, $(BIN)/keys/%, $@)
+	@${ARMAKE} keygen -f $(patsubst $(BIN)/keys/%.biprivatekey, $(BIN)/keys/%, $@)
 
 $(BIN)/addons/$(PREFIX)_%.pbo.$(PREFIX)_$(VERSION_FULL)-$(GIT_HASH).bisign: $(BIN)/addons/$(PREFIX)_%.pbo $(BIN)/keys/$(PREFIX)_$(VERSION_FULL).biprivatekey
 	@echo "  SIG  $@"
-	@armake sign -f -s $@ $(BIN)/keys/$(PREFIX)_$(VERSION_FULL).biprivatekey $<
+	@${ARMAKE} sign -f -s $@ $(BIN)/keys/$(PREFIX)_$(VERSION_FULL).biprivatekey $<
 
 $(BIN)/optionals/$(PREFIX)_%.pbo.$(PREFIX)_$(VERSION_FULL)-$(GIT_HASH).bisign: $(BIN)/optionals/$(PREFIX)_%.pbo $(BIN)/keys/$(PREFIX)_$(VERSION_FULL).biprivatekey
 	@echo "  SIG  $@"
-	@armake sign -f -s $@ $(BIN)/keys/$(PREFIX)_$(VERSION_FULL).biprivatekey $<
+	@${ARMAKE} sign -f -s $@ $(BIN)/keys/$(PREFIX)_$(VERSION_FULL).biprivatekey $<
 
 signatures: $(patsubst addons/%, $(BIN)/addons/$(PREFIX)_%.pbo.$(PREFIX)_$(VERSION_FULL)-$(GIT_HASH).bisign, $(wildcard addons/*)) \
 		$(patsubst optionals/%, $(BIN)/optionals/$(PREFIX)_%.pbo.$(PREFIX)_$(VERSION_FULL)-$(GIT_HASH).bisign, $(wildcard optionals/*))
