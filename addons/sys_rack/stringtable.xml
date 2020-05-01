@@ -25,6 +25,7 @@
             <French>Non montable</French>
             <German>Nicht installierbar</German>
             <Russian>Нельзя установить</Russian>
+            <Portuguese>Não montável</Portuguese>
         </Key>
         <Key ID="STR_ACRE_sys_rack_unmountRadio">
             <English>Unmount</English>
@@ -61,7 +62,7 @@
             <Chinese>停止使用</Chinese>
             <Chinesesimp>停止使用</Chinesesimp>
             <Korean>사용 중지</Korean>
-            <Portuguese>Para de usar</Portuguese>
+            <Portuguese>Parar de usar</Portuguese>
             <Polish>Przestań używać</Polish>
             <Italian>Termina uso</Italian>
             <Spanish>Deja de usar</Spanish>
@@ -89,7 +90,7 @@
             <Chinese>無法卸載無線電，因為你的物品欄已經沒有任何空間。</Chinese>
             <Chinesesimp>无法卸载无线电，因为你的物品栏已经没有任何空间。</Chinesesimp>
             <Korean>인벤토리 공간이 없어 무전기를 분리 할 수 없습니다.</Korean>
-            <Portuguese>Impossível desmontar o rádio, você não tem espaço no inventádio.</Portuguese>
+            <Portuguese>Impossível desmontar o rádio, você não tem espaço no inventário.</Portuguese>
             <Polish>Nie można wymontować radia. Brak miejsca w ekwipunku.</Polish>
             <Italian>Impossibile smontare radio. Inventario pieno.</Italian>
             <Spanish>Imposible desmontar la radio. Inventario lleno.</Spanish>
@@ -99,11 +100,11 @@
         <Key ID="STR_ACRE_sys_rack_Racks">
             <English>Racks</English>
             <German>Anlage</German>
-            <Chinese>架子</Chinese>
-            <Chinesesimp>架子</Chinesesimp>
+            <Chinese>機架</Chinese>
+            <Chinesesimp>机架</Chinesesimp>
             <Korean>선반</Korean>
             <Japanese>架台</Japanese>
-            <Portuguese>Suporte</Portuguese>
+            <Portuguese>Raques</Portuguese>
             <Polish>Szafa radiowa</Polish>
             <Italian>Racks</Italian>
             <Spanish>Racks</Spanish>
@@ -113,8 +114,8 @@
         <Key ID="STR_ACRE_sys_rack_dash">
             <English>Dash</English>
             <German>Schacht</German>
-            <Chinese>儀錶板</Chinese>
-            <Chinesesimp>仪表板</Chinesesimp>
+            <Chinese>儀器版面</Chinese>
+            <Chinesesimp>仪器版面</Chinesesimp>
             <Korean>대쉬보드</Korean>
             <Japanese>ダッシュボード</Japanese>
             <Portuguese>Painel</Portuguese>
@@ -128,18 +129,19 @@
             <English>Dash</English>
             <Italian>Cruscotto</Italian>
             <Japanese>ダッシュ</Japanese>
-            <Chinese>儀錶板</Chinese>
-            <Chinesesimp>仪表板</Chinesesimp>
+            <Chinese>儀器版面 下</Chinese>
+            <Chinesesimp>仪器版面 下</Chinesesimp>
             <Spanish>Panel</Spanish>
             <French>Tableau de bord</French>
             <German>Anschluss</German>
             <Russian>Панель</Russian>
+            <Portuguese>Painel</Portuguese>
         </Key>
         <Key ID="STR_ACRE_sys_rack_dashLower">
             <English>Dash Lower</English>
             <German>Unterer</German>
-            <Chinese>儀錶板下降</Chinese>
-            <Chinesesimp>仪表板下降</Chinesesimp>
+            <Chinese>儀器版面下降</Chinese>
+            <Chinesesimp>仪器版面下降</Chinesesimp>
             <Korean>대쉬보드 하단</Korean>
             <Japanese>ダッシュボードを下げる</Japanese>
             <Portuguese>Painel Inferior</Portuguese>
@@ -153,18 +155,19 @@
             <English>D.Low</English>
             <Italian>C. Basso</Italian>
             <Japanese>D.下げ</Japanese>
-            <Chinese>儀錶板下降</Chinese>
-            <Chinesesimp>仪表板下降</Chinesesimp>
+            <Chinese>儀器.下</Chinese>
+            <Chinesesimp>仪器.下</Chinesesimp>
             <Spanish>P.Inf</Spanish>
             <French>T. inf</French>
             <German>Unten</German>
             <Russian>Н-я панель</Russian>
+            <Portuguese>P. Inf.</Portuguese>
         </Key>
         <Key ID="STR_ACRE_sys_rack_dashUpper">
             <English>Dash Upper</English>
             <German>Oberer</German>
-            <Chinese>儀錶板上升</Chinese>
-            <Chinesesimp>仪表板上升</Chinesesimp>
+            <Chinese>儀器版面上升</Chinese>
+            <Chinesesimp>仪器版面上升</Chinesesimp>
             <Korean>대쉬보드 상단</Korean>
             <Japanese>ダッシュボードを上げる</Japanese>
             <Portuguese>Painel Superior</Portuguese>
@@ -178,12 +181,13 @@
             <English>D.Up</English>
             <Italian>C. Alto</Italian>
             <Japanese>D.上げ</Japanese>
-            <Chinese>儀錶板上升</Chinese>
-            <Chinesesimp>仪表板上升</Chinesesimp>
+            <Chinese>儀器.上</Chinese>
+            <Chinesesimp>仪器.上</Chinesesimp>
             <Spanish>P.Sup</Spanish>
             <French>T. sup</French>
             <German>Oben</German>
             <Russian>В-я панель</Russian>
+            <Portuguese>P. Sup.</Portuguese>
         </Key>
         <Key ID="STR_ACRE_sys_rack_useAllRacks">
             <English>Use All</English>
@@ -194,6 +198,7 @@
             <French>Tout utiliser</French>
             <German>Verwende alle</German>
             <Russian>Использовать все</Russian>
+            <Portuguese>Usar todos</Portuguese>
         </Key>
         <Key ID="STR_ACRE_sys_rack_stopUsingAllRacks">
             <English>Stop Using All</English>
@@ -204,6 +209,7 @@
             <French>Arrêter de tout utiliser</French>
             <German>Nicht mehr alle verwenden</German>
             <Russian>Прекратить использовать все</Russian>
+            <Portuguese>Todos: Parar de usar</Portuguese>
         </Key>
     </Package>
 </Project>

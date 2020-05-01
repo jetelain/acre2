@@ -6,7 +6,10 @@
  * Arguments:
  * 0: Unit with ACRE2 radios <OBJECT>
  * 1: Active <BOOL>
- * 2: Array with additional parameters: unique radio ID <ARRAY>
+ * 2: Array with additional parameters <ARRAY>
+ *   0: Unique radio ID <STRING>
+ *   1: Is Active <BOOL>
+ *   2: PTT assigned radio IDs <ARRAY>
  *
  * Return Value:
  * Array of actions <ARRAY>
@@ -36,7 +39,7 @@ if (!(_radio in ACRE_EXTERNALLY_USED_PERSONAL_RADIOS)) then {
     _actions pushBack [_action, [], _target];
 
     if (!((_radio in ACRE_ACCESSIBLE_RACK_RADIOS && {isTurnedOut acre_player}) || _radio in ACRE_HEARABLE_RACK_RADIOS)) then {
-        _action = [QGVAR(openRadio), localize LSTRING(openRadio), "", {[((_this select 2) select 0)] call EFUNC(sys_radio,openRadio)}, {true}, {}, _params] call ace_interact_menu_fnc_createAction;
+        _action = [QGVAR(openRadio), localize ELSTRING(sys_gui,Open), "", {[((_this select 2) select 0)] call EFUNC(sys_radio,openRadio)}, {true}, {}, _params] call ace_interact_menu_fnc_createAction;
         _actions pushBack [_action, [], _target];
     };
 
@@ -53,14 +56,14 @@ if (!(_radio in ACRE_EXTERNALLY_USED_PERSONAL_RADIOS)) then {
 
     private _idx = _pttAssign find _radio;
     _txt = localize LSTRING(bindMultiPushToTalk);
-    if ((_idx > -1) and (_idx < 3)) then {
+    if ((_idx > -1) && (_idx < 3)) then {
         _txt = format [localize LSTRING(multiPushToTalk), (_idx + 1)];
     };
 
     _action = [QGVAR(mpttAssign), _txt, "", {}, {true}, {_this call FUNC(radioPTTChildrenActions);}, _params] call ace_interact_menu_fnc_createAction;
     _actions pushBack [_action, [], _target];
 } else {
-    private _action = [QGVAR(openRadio), localize LSTRING(openRadio), "", {[((_this select 2) select 0)] call EFUNC(sys_radio,openRadio)}, {true}, {}, _params] call ace_interact_menu_fnc_createAction;
+    private _action = [QGVAR(openRadio), localize ELSTRING(sys_gui,Open), "", {[((_this select 2) select 0)] call EFUNC(sys_radio,openRadio)}, {true}, {}, _params] call ace_interact_menu_fnc_createAction;
     _actions pushBack [_action, [], _target];
 };
 
